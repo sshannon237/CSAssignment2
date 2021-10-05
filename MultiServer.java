@@ -14,6 +14,7 @@ public class MultiServer {
 
         try (ServerSocket serverSocket = new ServerSocket(portNumber)) {
             while (listening) {
+                System.out.println("LOG: Creating new thread.");
                 new MultiServerThread(serverSocket.accept()).start();
             }
         } catch (IOException e) {
