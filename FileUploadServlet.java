@@ -2,6 +2,12 @@ import java.io.*;
 
 public class FileUploadServlet extends Servlet {
 
+    /**
+     * Returns the HTML for the resource.
+     * @param request
+     * @param response
+     * @throws IOException
+     */
     void doGet(BufferedReader request, DataOutputStream response) throws IOException {
         
         response.writeBytes("HTTP/1.1 200 OK\r\n");
@@ -16,6 +22,12 @@ public class FileUploadServlet extends Servlet {
         response.writeBytes(htmlPage);
     }
 
+    /**
+     * Uploads the picture and returns a list of the files in the path.
+     * @param request
+     * @param response
+     * @throws IOException
+     */
     void doPost(BufferedReader request, DataOutputStream response) throws IOException {
         String topPart = "<!DOCTYPE html><html><body><ul>";
         String bottomPart = "</ul></body></html>";
@@ -24,6 +36,11 @@ public class FileUploadServlet extends Servlet {
         response.writeBytes(topPart + getListing("C:\\tomcat\\webapps\\photogallery\\images") + bottomPart);
     }
 
+    /**
+     * Gets all of the files in a specified path.
+     * @param path
+     * @return
+     */
     private String getListing(String path) {
         String dirList = null;
         File dir = new File(path);

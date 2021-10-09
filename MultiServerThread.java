@@ -14,4 +14,4 @@ public class MultiServerThread extends Thread {
         System.out.println("LOG: Running new thread");
         servlet.service(socket);
     }
-    }
+}
