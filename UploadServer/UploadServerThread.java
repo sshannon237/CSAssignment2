@@ -1,5 +1,6 @@
 package UploadServer;
 
+import javax.servlet.ServletRequest;
 import java.net.*;
 import java.io.*;
 
@@ -15,7 +16,7 @@ public class UploadServerThread extends Thread {
       try {
          // Creates a HttpServletRequest instance
          InputStream in = socket.getInputStream();
-         HttpServletRequest req = new HttpServletRequest(in);
+         HttpRequest req = new HttpRequest((ServletRequest) in);
 
          // Creates a HttpServletResponse instance
          DataOutputStream out = new DataOutputStream(socket.getOutputStream());
@@ -27,7 +28,7 @@ public class UploadServerThread extends Thread {
          BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(in));
          String inputLine;
          inputLine = bufferedReader.readLine();
-
+         System.out.println(inputLine);
          // ByteArrayOutputStream baos = new ByteArrayOutputStream();  
          // byte[] content = new byte[1];
          // int bytesRead = -1;      

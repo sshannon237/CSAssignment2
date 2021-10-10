@@ -9,7 +9,7 @@ import java.util.List;
 public class UploadServlet extends HttpServlet {
    String DIR_NAME = "./images/";
 
-   protected void doGet(HttpServletRequest request, HttpServletResponse response) {
+   protected void doGet(HttpRequest request, HttpServletResponse response) {
       DataOutputStream out = response.getOutputStream();
       // new DataOutputStream(response.getOutputStream());
       try {
@@ -30,26 +30,32 @@ public class UploadServlet extends HttpServlet {
       }
    }
 
-   protected void doPost(HttpServletRequest request, HttpServletResponse response) {
+   protected void doPost(HttpRequest request, HttpServletResponse response) {
       try {
-         InputStream in = request.getInputStream();
+         HttpRequest in = request.getInputStream();
          BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(in));
          String inputLine;
          inputLine = bufferedReader.lines().collect(Collectors.joining());
-         String image = inputLine.substring(0, inputLine.indexOf("------"));
-         System.out.println(image);
-//         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-//         byte[] content = new byte[1];
-//         int bytesRead = -1;
-//         while( ( bytesRead = in.read( content ) ) != -1 ) {
-//            baos.write( content, 0, bytesRead );
-//         }
+         String image = "POST /upload HTTP/1.1\n" + inputLine.substring(0, inputLine.indexOf("------"));
+         String name = inputLine.substring(inputLine.indexOf("\"caption\""), inputLine.indexOf("------"));
+         System.out.println(inputLine);
+         ByteArrayOutputStream baos = new ByteArrayOutputStream();
+         byte[] content = new byte[1];
+         int bytesRead = -1;
+         while( ( bytesRead = in.read( content ) ) != -1 ) {
+            baos.write( content, 0, bytesRead );
+         }
+
+
          OutputStream outputStream = new FileOutputStream(new File(DIR_NAME + "hello" + ".png"));
          Writer writer = new OutputStreamWriter(outputStream, "UTF-8");
-         writer.write(inputLine);
+         writer.write(image);
 //         baos.writeTo(outputStream);
          outputStream.close();
          PrintWriter out = new PrintWriter(response.getOutputStream(), true);
+
+
+
 
          File dir = new File(DIR_NAME);
          String[] chld = dir.list();
