@@ -13,7 +13,6 @@ public class UploadServerThread extends Thread {
 
    public void run() {
       try {
-
          // Creates a HttpServletRequest instance
          InputStream in = socket.getInputStream(); 
          HttpServletRequest req = new HttpServletRequest(in);
@@ -25,21 +24,8 @@ public class UploadServerThread extends Thread {
          // Creates a HttpServlet Instance
          HttpServlet httpServlet = new UploadServlet();
 
-         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(in));
-         String inputLine;
-         inputLine = bufferedReader.readLine();
+         httpServlet.doPost(req, res);
 
-         if (inputLine.contains("GET / ")) {
-            httpServlet.doGet(req, res);
-         } else if (inputLine.contains("POST")) {
-            httpServlet.doGet(req, res);
-         } else {
-            httpServlet.doGet(req, res);
-         }
-
-         OutputStream out = socket.getOutputStream();
-         out.write(((ByteArrayOutputStream) baos).toByteArray());
-         socket.close();
 
       } catch (Exception e) { e.printStackTrace(); }
    }

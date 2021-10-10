@@ -1,15 +1,19 @@
 package UploadServer;
 
 import java.io.*;
-import java.time.Clock;
+import java.util.ArrayList;
+import java.util.stream.*;
+import java.util.Arrays;
+import java.util.List;
 
 public class UploadServlet extends HttpServlet {
-   static final String SAVE_DIR = "C:/tomcat/webapps/photogallery/images/";
+   String DIR_NAME = "./images/";
 
    protected void doGet(HttpServletRequest request, HttpServletResponse response) {
       DataOutputStream out = new DataOutputStream(response.getOutputStream());
       try {
          System.out.println("doGet method called");
+
          out.writeBytes("HTTP/1.1 200 OK\r\n");
          out.writeBytes("Content-Type: text/html\r\n\r\n");
          String htmlPage = "<!DOCTYPE html>" +
@@ -40,19 +44,17 @@ public class UploadServlet extends HttpServlet {
          while( ( bytesRead = in.read( content ) ) != -1 ) {
             baos.write( content, 0, bytesRead );
          }
-         Clock clock = Clock.systemDefaultZone();
-         long milliSeconds=clock.millis();
-         OutputStream outputStream = new FileOutputStream(new File(String.valueOf(milliSeconds) + ".png"));
+         OutputStream outputStream = new FileOutputStream(new File(DIR_NAME + "hello" + ".png"));
          baos.writeTo(outputStream);
          outputStream.close();
          PrintWriter out = new PrintWriter(response.getOutputStream(), true);
-         File dir = new File(".");
+
+         File dir = new File(DIR_NAME);
          String[] chld = dir.list();
-         for(int i = 0; i < chld.length; i++){
-            String fileName = chld[i];
-            out.println(fileName+"\n");
-            System.out.println(fileName);
-         }
+         List<String> images = new ArrayList<String>(Arrays.asList(chld));
+         List<String> sortedImages = images.stream().sorted().collect(Collectors.toList());
+         sortedImages.forEach(System.out::println);
+
       } catch(Exception ex) {
          System.err.println(ex);
       }
