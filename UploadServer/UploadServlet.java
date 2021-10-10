@@ -36,17 +36,20 @@ public class UploadServlet extends HttpServlet {
          BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(in));
          String inputLine;
          inputLine = bufferedReader.lines().collect(Collectors.joining());
-         System.out.println(inputLine);
+         String image = inputLine.substring(0, inputLine.indexOf("------"));
+         System.out.println(image);
 //         ByteArrayOutputStream baos = new ByteArrayOutputStream();
 //         byte[] content = new byte[1];
 //         int bytesRead = -1;
 //         while( ( bytesRead = in.read( content ) ) != -1 ) {
 //            baos.write( content, 0, bytesRead );
 //         }
-//         OutputStream outputStream = new FileOutputStream(new File(DIR_NAME + "hello" + ".png"));
+         OutputStream outputStream = new FileOutputStream(new File(DIR_NAME + "hello" + ".png"));
+         Writer writer = new OutputStreamWriter(outputStream, "UTF-8");
+         writer.write(inputLine);
 //         baos.writeTo(outputStream);
-//         outputStream.close();
-//         PrintWriter out = new PrintWriter(response.getOutputStream(), true);
+         outputStream.close();
+         PrintWriter out = new PrintWriter(response.getOutputStream(), true);
 
          File dir = new File(DIR_NAME);
          String[] chld = dir.list();
