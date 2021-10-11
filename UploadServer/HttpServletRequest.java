@@ -5,7 +5,7 @@ import java.io.BufferedReader;
 public class HttpServletRequest {
    private BufferedReader inputStream = null;
 
-   private int contentLength;
+   private String boundary;
 
    /** Constructor */
    public HttpServletRequest(BufferedReader inputStream) {
@@ -15,11 +15,11 @@ public class HttpServletRequest {
    /** Getter method for inputStream(instance variable). */
    public BufferedReader getInputStream() {return inputStream;}
 
-   public void setContentLength(int contentLength){
-      this.contentLength = contentLength;
+   public void setBoundary(String boundary){
+      this.boundary = boundary;
    }
 
-   public int getContentLength() {
-      return contentLength;
+   public String getBoundary() {
+      return boundary;
    }
 }

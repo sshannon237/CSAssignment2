@@ -31,12 +31,11 @@ public class UploadServerThread extends Thread {
          String input = "";
          String endOfRequest = "";
          String inputLine = "";
-         int imageSize = 0;
          while(!(inputLine = bufferedReader.readLine()).equals("") ) {
             input += inputLine + "\n";
             if(inputLine.contains("Content-Type")){
                String[] boundary = inputLine.split("=", 2);
-               endOfRequest = boundary[1] + "--";
+               req.setBoundary(boundary[1]);
             }
          }
          System.out.println(endOfRequest);
@@ -55,9 +54,7 @@ public class UploadServerThread extends Thread {
          if (input.contains("GET / ")) {
             httpServlet.doGet(req, res);
          } else if (input.contains("POST")) {
-            // while(!(inputLine = bufferedReader.readLine()).contains(endOfRequest) ) {
-            //    System.out.println(inputLine);
-            // }
+
             httpServlet.doPost(req, res);
          }
          socket.close();
