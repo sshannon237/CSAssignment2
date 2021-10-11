@@ -1,15 +1,25 @@
 package UploadServer;
 
-import java.io.InputStream;
+import java.io.BufferedReader;
 
 public class HttpServletRequest {
-   private InputStream inputStream = null;
+   private BufferedReader inputStream = null;
+
+   private String boundary;
 
    /** Constructor */
-   public HttpServletRequest(InputStream inputStream) {
+   public HttpServletRequest(BufferedReader inputStream) {
       this.inputStream = inputStream;
    }
 
    /** Getter method for inputStream(instance variable). */
-   public InputStream getInputStream() {return inputStream;}
+   public BufferedReader getInputStream() {return inputStream;}
+
+   public void setBoundary(String boundary){
+      this.boundary = boundary;
+   }
+
+   public String getBoundary() {
+      return boundary;
+   }
 }
