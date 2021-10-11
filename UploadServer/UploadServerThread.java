@@ -29,6 +29,10 @@ public class UploadServerThread extends Thread {
          String inputLine = "";
          while(!(inputLine = bufferedReader.readLine()).equals("") ) {
             input += inputLine + "\n";
+            if(inputLine.contains("Content-Length")){
+               String[] contentLength = inputLine.split(" ", 2);
+               System.out.println(contentLength[1]);
+            }
          }
          System.out.println(input);
 
