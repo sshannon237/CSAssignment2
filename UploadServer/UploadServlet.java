@@ -4,6 +4,7 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.stream.*;
 import java.util.Arrays;
+import java.util.Base64;
 import java.util.List;
 
 public class UploadServlet extends HttpServlet {
@@ -39,49 +40,19 @@ public class UploadServlet extends HttpServlet {
       BufferedReader in = request.getInputStream();
       try {
          System.out.println("doPost method called");
-         String inputLine;
-         inputLine = in.readLine();
-         System.out.print(inputLine);
-         inputLine = in.readLine();
-         System.out.print(inputLine);
-         inputLine = in.readLine();
-         System.out.print(inputLine);
-         inputLine = in.readLine();
-         System.out.print(inputLine);
-         // ByteArrayOutputStream baos = new ByteArrayOutputStream();
-         // byte[] content = new byte[1];
-         // int bytesRead = -1;
-         // for(int i = 0; i < request.getContentLength(); i++) {
-         //    baos.write( content, 0, bytesRead );
-         // }
-         // String s = baos.toString();
-         // System.out.println(s);
-         // System.out.println(baos.toString());
-         // BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(in));
-         // String inputLine;
-         // while((inputLine = bufferedReader.readLine()) != null ) {
-         //    System.out.println(inputLine);
-         // }
-         // StringBuilder result = new StringBuilder();
-         // do {
-         //    result.append((char) in.read());
-         // } while (in.available() > 0);
-         // System.out.println(result);
+         String inputLine = "";
+         String input = "";
+         String endOfRequest = request.getBoundary() + "--";
+         while(!(inputLine = in.readLine()).contains(endOfRequest) ) {
+            input += inputLine + "\n";
+         }
+         System.out.println(input);
+         String[] body = input.split(request.getBoundary());
 
-         // String[] formData = result.toString().split("------WebKitFormBoundaryneJb0sBKfo3bdF7H",5);
+         //System.out.println(body[1]);
 
-         // System.out.println(formData[0]);
-         // System.out.println(formData[1]);
-         // System.out.println(formData[2]);
-         // System.out.println(formData[3]);
+        // byte[] image = body[1].getBytes();
 
-
-         // File dir = new File(DIR_NAME);
-         // String[] chld = dir.list();
-         // List<String> images = new ArrayList<String>(Arrays.asList(chld));
-         // List<String> sortedImages =
-         // images.stream().sorted().collect(Collectors.toList());
-         // sortedImages.forEach(System.out::println);
 
          String topPart = "<!DOCTYPE html><html><body><ul>";
          String bottomPart = "</ul></body></html>";
