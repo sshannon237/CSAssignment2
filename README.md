@@ -1,13 +1,13 @@
 # CSAssignment2
 
-##Compiling and Running the Code##
+## Compiling and Running the Code
 1. cd into the project directory
 2. run startup.bat
 3. Access the project via. Web brwser at localhost:8999
 4a. Access the project via cli by running /ConsoleApp/Activity
 4b. Provide the fully qualified directory for the file you want to upload. The relative path won't work
 
-##Work Distribution##
+## Work Distribution
 Christopher Spooner
 - Parse and convert HTTP requests
 - custom exception
