@@ -1,15 +1,15 @@
 package UploadServer;
 
-import java.io.OutputStream;
+import java.io.DataOutputStream;
 
 public class HttpServletResponse {
-   private OutputStream outputStream = null;
+   private DataOutputStream outputStream = null;
 
    /** Constructor. */
-   public HttpServletResponse(OutputStream outputStream) {
+   public HttpServletResponse(DataOutputStream outputStream) {
       this.outputStream = outputStream;
    }
 
    /** Getter method for outputStream(instance variable). */
-   public OutputStream getOutputStream() {return outputStream;}
+   public DataOutputStream getOutputStream() {return outputStream;}
 }
