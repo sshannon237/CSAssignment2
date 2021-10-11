@@ -42,10 +42,26 @@ public class UploadServlet extends HttpServlet {
          while(!(inputLine = in.readLine()).contains(endOfRequest) ) {
             input += inputLine + "\n";
          }
-         System.out.println(input);
-         String[] body = input.split(request.getBoundary());
+         
+         String[] body = input.split("--" + request.getBoundary());
 
-         //System.out.println(body[1]);
+         String[] filePart = body[1].split("\n",4);
+         String captionPart = body[2];
+         String datePart = body[3];
+
+         String untrimmedfileName = filePart[1].split("filename=")[1];
+         String fileName = untrimmedfileName.substring(1,untrimmedfileName.length()-1);
+         byte[] file = filePart[3].trim().getBytes();
+
+         String caption = captionPart.split("name=\"caption\"")[1].trim();
+         String date = datePart.split("name=\"date\"")[1].trim();
+
+         OutputStream os = new FileOutputStream(new File("images\\" + date + caption + fileName));
+         os.write(file);
+
+         // System.out.println(caption);
+         // System.out.println(date);
+         // System.out.println(filePart[1]);
 
         // byte[] image = body[1].getBytes();
 
