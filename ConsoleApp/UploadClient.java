@@ -8,8 +8,16 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class UploadClient {
-    public UploadClient() { }
-    public String uploadFile(String fileName) {
+    private String fileName;
+    private String dateCreated;
+    private String keyword;
+
+    public UploadClient(String fileName, String dateCreated, String keyword) {
+        this.fileName = fileName;
+        this.dateCreated = dateCreated;
+        this.keyword = keyword;
+    }
+    public String uploadFile() {
         String listing = "";
         try {
             Socket socket = new Socket("localhost", 8999);
