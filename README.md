@@ -4,8 +4,8 @@
 1. cd into the project directory
 2. run startup.bat
 3. Access the project via. Web brwser at localhost:8999
-4. 4a. Access the project via cli by running /ConsoleApp/Activity
-4b. Provide the fully qualified directory for the file you want to upload. The relative path won't work
+4.  a. Access the project via cli by running /ConsoleApp/Activity
+    b. Provide the fully qualified path for the file you want to upload. The relative path won't work
 
 ## Work Distribution
 Christopher Spooner
