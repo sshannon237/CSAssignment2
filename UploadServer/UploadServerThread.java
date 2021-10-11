@@ -15,6 +15,7 @@ public class UploadServerThread extends Thread {
       try {
          // Creates a HttpServletRequest instance
          InputStream in = socket.getInputStream();
+
          HttpServletRequest req = new HttpServletRequest(in);
 
          // Creates a HttpServletResponse instance
@@ -24,25 +25,40 @@ public class UploadServerThread extends Thread {
          // Creates a HttpServlet Instance
          HttpServlet httpServlet = new UploadServlet();
 
+
+
+//         httpServlet.doGet(req, res);
+
          BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(in));
-         String inputLine;
-         inputLine = bufferedReader.readLine();
-
-         // ByteArrayOutputStream baos = new ByteArrayOutputStream();  
-         // byte[] content = new byte[1];
-         // int bytesRead = -1;      
-         // while( ( bytesRead = in.read( content ) ) != -1 ) {  
-         //    baos.write( content, 0, bytesRead );  
-         // }
-         // System.out.println(baos.toString());
-
-         if (inputLine.contains("GET / ")) {
-            httpServlet.doGet(req, res);
-         } else if (inputLine.contains("POST")) {
-            httpServlet.doPost(req, res);
-         } else {
-            httpServlet.doGet(req, res);
+         String inputLine = "";
+         while ( !(inputLine += bufferedReader.readLine()).equals("") ) {
+            inputLine +="\n";
+            System.out.println(inputLine);
          }
+//         inputLine = bufferedReader.readLine();
+         System.out.println(inputLine);
+
+
+         ByteArrayOutputStream baos = new ByteArrayOutputStream();
+          byte[] content = new byte[1];
+          int bytesRead = -1;
+          while( ( bytesRead = in.read( content ) ) != -1 ) {
+             baos.write( content, 0, bytesRead );
+          }
+          String s = baos.toString();
+          System.out.println(s);
+          System.out.println(baos.toString());
+
+         httpServlet.doGet(req, res);
+//           httpServlet.doPost(req, res);
+
+//         if (s.substring(0,6).contains("GET / ")) {
+//            httpServlet.doGet(baos, res);
+//         } else if (s.substring(0,6).contains("POST")) {
+//            httpServlet.doPost(baos, res);
+//         } else {
+//            httpServlet.doPost(baos, res);
+//         }
          socket.close();
          // System.out.println();
          // BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(in));
