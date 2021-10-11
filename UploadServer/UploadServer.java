@@ -11,6 +11,7 @@ public class UploadServer {
         // Instantiates socket
         try {
             serverSocket = new ServerSocket(8999);
+            System.out.println("LOG: Listening on port 8999.");
         } catch (IOException e) {
             System.err.println("Could not listen on port: 8999.");
             System.exit(-1);

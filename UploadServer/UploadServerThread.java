@@ -14,25 +14,21 @@ public class UploadServerThread extends Thread {
     }
 
    public void run() {
+      System.out.println("LOG: Running thread.");
       try {
          // Creates a HttpServletRequest instance
          InputStream in = socket.getInputStream();
          HttpServletRequest req = new HttpServletRequest(new BufferedReader(new InputStreamReader(in)));
 
 
-            // Creates a HttpServletResponse instance
-            DataOutputStream out =
-                  new DataOutputStream(socket.getOutputStream());
-            HttpServletResponse res = new HttpServletResponse(out);
-
-
-         // Creates a HttpServlet Instance
-         HttpServlet httpServlet = new UploadServlet();
+         // Creates a HttpServletResponse instance
+         DataOutputStream out =
+               new DataOutputStream(socket.getOutputStream());
+         HttpServletResponse res = new HttpServletResponse(out);
 
          // Reads the Header from the input Stream and gets the image size as int
          BufferedReader bufferedReader = req.getInputStream();
          String input = "";
-         String endOfRequest = "";
          String inputLine = "";
          while(!(inputLine = bufferedReader.readLine()).equals("") ) {
             input += inputLine + "\n";
@@ -41,18 +37,6 @@ public class UploadServerThread extends Thread {
                req.setBoundary(boundary[1]);
             }
          }
-         System.out.println(endOfRequest);
-         // System.out.println(imageSize);
-
-            //         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-//         byte[] content = new byte[1];
-//         int bytesRead = -1;
-//         while( ( bytesRead = in.read( content ) ) != -1 ) {
-//            baos.write( content, 0, bytesRead );
-//         }
-//         String s = baos.toString();
-//         System.out.println(s);
-//         System.out.println(baos.toString());
 
 
             Class<UploadServlet> test = UploadServlet.class;
@@ -73,18 +57,4 @@ public class UploadServerThread extends Thread {
             e.printStackTrace();
         }
     }
-//         if (input.contains("GET / ")) {
-//            httpServlet.doGet(req, res, true);
-//         } else if (input.contains("POST")) {
-//
-//            httpServlet.doPost(req, res);
-//         } else {
-//            httpServlet.doGet(req, res, false);
-//         }
-//         socket.close();
-//
-//      } catch (Exception e) {
-//         e.printStackTrace();
-//      }
-//   }
 }

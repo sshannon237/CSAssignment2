@@ -4,13 +4,13 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.stream.*;
 import java.util.Arrays;
-import java.util.Base64;
 import java.util.List;
 
 public class UploadServlet extends HttpServlet {
    String DIR_NAME = "./images/";
 
    protected void doGet(HttpServletRequest request, HttpServletResponse response, boolean fromBrowser) {
+      System.out.println("LOG: Running doGet.");
       DataOutputStream out = response.getOutputStream();
       // new DataOutputStream(response.getOutputStream());
       if (fromBrowser) {
@@ -36,6 +36,7 @@ public class UploadServlet extends HttpServlet {
    }
 
    protected void doPost(HttpServletRequest request, HttpServletResponse response) {
+      System.out.println("LOG: Running doPost.");
       DataOutputStream out = response.getOutputStream();
       BufferedReader in = request.getInputStream();
       try {
@@ -62,13 +63,6 @@ public class UploadServlet extends HttpServlet {
 
          OutputStream os = new FileOutputStream(new File("images\\" + date + caption + fileName));
          os.write(file);
-
-         // System.out.println(caption);
-         // System.out.println(date);
-         // System.out.println(filePart[1]);
-
-        // byte[] image = body[1].getBytes();
-
 
          String topPart = "<!DOCTYPE html><html><body><ul>";
          String bottomPart = "</ul></body></html>";
