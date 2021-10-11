@@ -53,38 +53,38 @@ public class UploadServerThread extends Thread {
 //         String s = baos.toString();
 //         System.out.println(s);
 //         System.out.println(baos.toString());
-
-
-            Class<UploadServlet> test = UploadServlet.class;
-            Method post = test.getDeclaredMethod("doPost",
-                  HttpServletRequest.class, HttpServletResponse.class);
-            Method get = test.getDeclaredMethod("doGet",
-                  HttpServletRequest.class, HttpServletResponse.class);
-
-            if (input.contains("GET / ")) {
-                get.invoke(test.getDeclaredConstructor().newInstance(), req,
-                      res);
-            } else if (input.contains("POST")) {
-               post.invoke(test.getDeclaredConstructor().newInstance(), req, res);
-            }
-            socket.close();
-        } catch (NoSuchMethodException | InvocationTargetException |
-              IllegalAccessException | IOException | InstantiationException e) {
-            e.printStackTrace();
-        }
-    }
-//         if (input.contains("GET / ")) {
-//            httpServlet.doGet(req, res, true);
-//         } else if (input.contains("POST")) {
 //
-//            httpServlet.doPost(req, res);
-//         } else {
-//            httpServlet.doGet(req, res, false);
-//         }
-//         socket.close();
 //
-//      } catch (Exception e) {
-//         e.printStackTrace();
-//      }
-//   }
+//            Class<UploadServlet> test = UploadServlet.class;
+//            Method post = test.getDeclaredMethod("doPost",
+//                  HttpServletRequest.class, HttpServletResponse.class);
+//            Method get = test.getDeclaredMethod("doGet",
+//                  HttpServletRequest.class, HttpServletResponse.class);
+//
+//            if (input.contains("GET / ")) {
+//                get.invoke(test.getDeclaredConstructor().newInstance(), req,
+//                      res);
+//            } else if (input.contains("POST")) {
+//               post.invoke(test.getDeclaredConstructor().newInstance(), req, res);
+//            }
+//            socket.close();
+//        } catch (NoSuchMethodException | InvocationTargetException |
+//              IllegalAccessException | IOException | InstantiationException e) {
+//            e.printStackTrace();
+//        }
+//    }
+         if (input.contains("GET / ")) {
+            httpServlet.doGet(req, res, true);
+         } else if (input.contains("POST")) {
+
+            httpServlet.doPost(req, res);
+         } else {
+            httpServlet.doGet(req, res, false);
+         }
+         socket.close();
+
+      } catch (Exception e) {
+         e.printStackTrace();
+      }
+   }
 }
