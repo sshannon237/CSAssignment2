@@ -73,4 +73,18 @@ public class UploadServerThread extends Thread {
             e.printStackTrace();
         }
     }
+//         if (input.contains("GET / ")) {
+//            httpServlet.doGet(req, res, true);
+//         } else if (input.contains("POST")) {
+//
+//            httpServlet.doPost(req, res);
+//         } else {
+//            httpServlet.doGet(req, res, false);
+//         }
+//         socket.close();
+//
+//      } catch (Exception e) {
+//         e.printStackTrace();
+//      }
+//   }
 }
