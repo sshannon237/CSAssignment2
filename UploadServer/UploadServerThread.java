@@ -18,7 +18,7 @@ public class UploadServerThread extends Thread {
       try {
          // Creates a HttpServletRequest instance
          InputStream in = socket.getInputStream();
-         HttpServletRequest req = new HttpServletRequest(new BufferedReader(new InputStreamReader(in)));
+         HttpServletRequest req = new HttpServletRequest(new BufferedReader(new InputStreamReader(in)), in);
 
 
          // Creates a HttpServletResponse instance
@@ -27,9 +27,11 @@ public class UploadServerThread extends Thread {
          HttpServletResponse res = new HttpServletResponse(out);
 
          // Reads the Header from the input Stream and gets the image size as int
-         BufferedReader bufferedReader = req.getInputStream();
+         BufferedReader bufferedReader = req.getBufferedReader();
          String input = "";
          String inputLine = "";
+         boolean fromBrowser = true;
+         try {
          while(!(inputLine = bufferedReader.readLine()).equals("") ) {
             input += inputLine + "\n";
             if(inputLine.contains("Content-Type")){
@@ -37,8 +39,11 @@ public class UploadServerThread extends Thread {
                req.setBoundary(boundary[1]);
             }
          }
+         } catch(Exception e){
+            fromBrowser = false;
+         }
 
-          boolean fromBrowser = true;
+          
             Class<UploadServlet> test = UploadServlet.class;
             Method post = test.getDeclaredMethod("doPost",
                   HttpServletRequest.class, HttpServletResponse.class,
@@ -51,6 +56,9 @@ public class UploadServerThread extends Thread {
                       res);
             } else if (input.contains("POST")) {
                 post.invoke(test.getDeclaredConstructor().newInstance(), req,
+                      res, fromBrowser);
+            } else if (!fromBrowser) {
+               post.invoke(test.getDeclaredConstructor().newInstance(), req,
                       res, fromBrowser);
             }
             socket.close();
