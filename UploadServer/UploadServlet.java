@@ -85,14 +85,16 @@ public class UploadServlet extends HttpServlet {
    }
 
    private String getListing(String path) {
-      String dirList = null;
+      String dirList = "";
       File dir = new File(path);
-      String[] chld = dir.list();
-      for (int i = 0; i < chld.length; i++) {
-         if ((new File(path + chld[i])).isDirectory())
-            dirList += "<li><button type=\"button\">" + chld[i] + "</button></li>";
+      String[] child = dir.list();
+      List<String> images = new ArrayList<>(Arrays.asList(child));
+      List<String> sortedImages = images.stream().sorted().collect(Collectors.toList());
+      for (int i = 0; i < sortedImages.size(); i++) {
+         if ((new File(path + sortedImages.get(i))).isDirectory())
+            dirList += "<li><button type=\"button\">" + sortedImages.get(i) + "</button></li>";
          else
-            dirList += "<li>" + chld[i] + "</li>";
+            dirList += "<li>" + sortedImages.get(i) + "</li>";
       }
       return dirList;
    }
