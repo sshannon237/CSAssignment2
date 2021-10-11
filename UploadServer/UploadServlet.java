@@ -32,16 +32,22 @@ public class UploadServlet extends HttpServlet {
 
    protected void doPost(HttpServletRequest request, HttpServletResponse response) {
       DataOutputStream out = response.getOutputStream();
+      BufferedReader in = request.getInputStream();
       try {
          System.out.println("doPost method called");
-         // InputStream in = request.getInputStream();
-
-
+         String inputLine;
+         inputLine = in.readLine();
+         System.out.print(inputLine);
+         inputLine = in.readLine();
+         System.out.print(inputLine);
+         inputLine = in.readLine();
+         System.out.print(inputLine);
+         inputLine = in.readLine();
+         System.out.print(inputLine);
          // ByteArrayOutputStream baos = new ByteArrayOutputStream();
          // byte[] content = new byte[1];
          // int bytesRead = -1;
-         // for(int i = 0; i < )
-         // while( ( bytesRead = in.read( content ) ) != -1 ) {
+         // for(int i = 0; i < request.getContentLength(); i++) {
          //    baos.write( content, 0, bytesRead );
          // }
          // String s = baos.toString();

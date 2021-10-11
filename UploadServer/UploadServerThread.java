@@ -15,28 +15,32 @@ public class UploadServerThread extends Thread {
       try {
          // Creates a HttpServletRequest instance
          InputStream in = socket.getInputStream();
-         HttpServletRequest req = new HttpServletRequest(in);
+         HttpServletRequest req = new HttpServletRequest(new BufferedReader(new InputStreamReader(in)));
+
 
          // Creates a HttpServletResponse instance
          DataOutputStream out = new DataOutputStream(socket.getOutputStream());
          HttpServletResponse res = new HttpServletResponse(out);
 
+
          // Creates a HttpServlet Instance
          HttpServlet httpServlet = new UploadServlet();
 
          // Reads the Header from the input Stream and gets the image size as int
-         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(in));
+         BufferedReader bufferedReader = req.getInputStream();
          String input = "";
+         String endOfRequest = "";
          String inputLine = "";
          int imageSize = 0;
          while(!(inputLine = bufferedReader.readLine()).equals("") ) {
             input += inputLine + "\n";
-            if(inputLine.contains("Content-Length")){
-               String[] contentLength = inputLine.split(" ", 2);
-               imageSize = Integer.parseInt(contentLength[1]);
+            if(inputLine.contains("Content-Type")){
+               String[] boundary = inputLine.split("=", 2);
+               endOfRequest = boundary[1] + "--";
             }
          }
-         System.out.println(imageSize);
+         System.out.println(endOfRequest);
+         // System.out.println(imageSize);
 
          //         ByteArrayOutputStream baos = new ByteArrayOutputStream();
 //         byte[] content = new byte[1];
@@ -51,6 +55,9 @@ public class UploadServerThread extends Thread {
          if (input.contains("GET / ")) {
             httpServlet.doGet(req, res);
          } else if (input.contains("POST")) {
+            // while(!(inputLine = bufferedReader.readLine()).contains(endOfRequest) ) {
+            //    System.out.println(inputLine);
+            // }
             httpServlet.doPost(req, res);
          }
          socket.close();
