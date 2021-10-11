@@ -10,24 +10,28 @@ import java.util.List;
 public class UploadServlet extends HttpServlet {
    String DIR_NAME = "./images/";
 
-   protected void doGet(HttpServletRequest request, HttpServletResponse response) {
+   protected void doGet(HttpServletRequest request, HttpServletResponse response, boolean fromBrowser) {
       DataOutputStream out = response.getOutputStream();
       // new DataOutputStream(response.getOutputStream());
-      try {
-         System.out.println("doGet method called");
+      if (fromBrowser) {
+         try {
+            System.out.println("doGet method called");
 
-         out.writeBytes("HTTP/1.1 200 OK\r\n");
-         out.writeBytes("Content-Type: text/html\r\n\r\n");
+            out.writeBytes("HTTP/1.1 200 OK\r\n");
+            out.writeBytes("Content-Type: text/html\r\n\r\n");
 
-         String htmlPage = "<!DOCTYPE html>" + "<html><head><title>File Upload Form</title></head>"
-               + "<body><h1>Upload file</h1>" + "<form method=\"POST\" action=\"upload\" "
-               + "enctype=\"multipart/form-data\">" + "<input type=\"file\" name=\"fileName\"/><br/><br/>"
-               + "Caption: <input type=\"text\" name=\"caption\"<br/><br/>" + "<br />"
-               + "Date: <input type=\"date\" name=\"date\"<br/><br/>" + "<br />"
-               + "<input type=\"submit\" value=\"Submit\"/>" + "</form>" + "</body></html>";
-         out.writeBytes(htmlPage);
-      } catch (IOException e) {
-         System.err.println(e);
+            String htmlPage = "<!DOCTYPE html>" + "<html><head><title>File Upload Form</title></head>"
+                    + "<body><h1>Upload file</h1>" + "<form method=\"POST\" action=\"upload\" "
+                    + "enctype=\"multipart/form-data\">" + "<input type=\"file\" name=\"fileName\"/><br/><br/>"
+                    + "Caption: <input type=\"text\" name=\"caption\"<br/><br/>" + "<br />"
+                    + "Date: <input type=\"date\" name=\"date\"<br/><br/>" + "<br />"
+                    + "<input type=\"submit\" value=\"Submit\"/>" + "</form>" + "</body></html>";
+            out.writeBytes(htmlPage);
+         } catch (IOException e) {
+            System.err.println(e);
+         }
+      } else {
+         System.out.println(getJSONListing("C:\\tomcat\\webapps\\photogallery\\images"));
       }
    }
 
@@ -87,6 +91,16 @@ public class UploadServlet extends HttpServlet {
          else
             dirList += "<li>" + chld[i] + "</li>";
       }
+      return dirList;
+   }
+   private String getJSONListing(String path) {
+      String dirList = "{\n";
+      File dir = new File(path);
+      String[] chld = dir.list();
+      for (int i = 0; i < chld.length; i++) {
+            dirList += "\n  " + chld[i];
+      }
+      dirList += "\n}";
       return dirList;
    }
 }
